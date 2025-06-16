@@ -15,7 +15,9 @@ src/desktop_overlay/core/overlay_manager.py
 src/desktop_overlay/mods/__init__.py
 src/desktop_overlay/mods/spotify_mod/__init__.py
 src/desktop_overlay/mods/web_mod/__init__.py
+src/desktop_overlay/mods/web_mod/web_mod.py
 src/desktop_overlay/ui/__init__.py
+src/desktop_overlay/ui/core_overlay_ui.py
 src/desktop_overlay/ui/layouts.py
 src/desktop_overlay/ui/themes.py
 src/desktop_overlay/ui/widgets.py

@@ -5,3 +5,4 @@ Summary: Modular open-source overlay for your desktop
 Author: Jan Kubów, Dawid Wyskwarski
 Requires-Python: >=3.8
 Requires-Dist: PySide6
+Requires-Dist: pynput

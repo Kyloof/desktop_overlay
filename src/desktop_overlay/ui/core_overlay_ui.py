@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt, QSize, QCoreApplication
 from PySide6.QtGui import QPainter, QColor
 import sys
 
-class Ui_overlay(object):
+class UiOverlay(object):
     def set_up_ui(self, MainWindow: QMainWindow):
         
         MainWindow.setWindowFlags(

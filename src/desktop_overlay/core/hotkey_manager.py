@@ -1,26 +1,26 @@
 from pynput import keyboard
 import threading
 
-class Hotkey_manager:
+class HotkeyManager:
     def __init__(self, sequence: set, activation_function):
         self.activation_sequence = sequence
         self.activation_function = activation_function
-        self.__current_sequence = set()
+        self._current_sequence = set()
 
-        listener_thread = threading.Thread(target=self.__start, daemon=True)
+        listener_thread = threading.Thread(target=self._start, daemon=True)
         listener_thread.start()
 
-    def __start(self):
+    def _start(self):
         with keyboard.Listener(
-            on_press= self.__pressed,
-            on_release= self.__release 
+            on_press = self._pressed,
+            on_release = self._release 
         ) as listener:
             listener.join()
 
-    def __pressed(self, key):
-        self.__current_sequence.add(key)
-        if self.__current_sequence == self.activation_sequence:
+    def _pressed(self, key):
+        self._current_sequence.add(key)
+        if self._current_sequence == self.activation_sequence:
             self.activation_function()
 
-    def __release(self, key):
-        self.__current_sequence.discard(key)
+    def _release(self, key):
+        self._current_sequence.discard(key)

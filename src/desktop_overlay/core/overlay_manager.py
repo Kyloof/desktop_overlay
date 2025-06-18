@@ -1,6 +1,6 @@
-'''
+"""
 Overlay_manager - class that adds functionality to the GUI
-'''
+"""
 
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtCore import QCoreApplication
@@ -12,12 +12,13 @@ import threading
 
 from pynput import keyboard
 
+
 class OverlayManager(QMainWindow):
     def __init__(self):
         super().__init__()
         ### For now, might change in the future, left ctrl + 0
-        self.seq = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char('0')}
-        
+        self.seq = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}
+
         self.ui = UiOverlay()
         self.ui.set_up_ui(self)
 
@@ -32,5 +33,4 @@ class OverlayManager(QMainWindow):
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
 
     def _toggle_visibility(self):
-        self.setVisible( not self.isVisible() )
-        
+        self.setVisible(not self.isVisible())

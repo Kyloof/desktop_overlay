@@ -1,5 +1,5 @@
 """
-Overlay_manager - class that adds functionality to the GUI
+OverlayManager - class that adds functionality to the GUI
 """
 
 from PySide6.QtWidgets import QMainWindow, QApplication
@@ -28,9 +28,15 @@ class OverlayManager(QMainWindow):
         self.move(0, 0)
 
         ### React when the sequence is pressed
-        HotkeyManager(self.seq, self._toggle_visibility)
+        HotkeyManager(self.seq, self._toggle_window_visibility)
 
+        ### This button will ultimately hide the overlay but i right now i need something to close the app
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
+        self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
 
-    def _toggle_visibility(self):
+    def _toggle_window_visibility(self):
         self.setVisible(not self.isVisible())
+
+    def _toggle_settings_visibility(self):
+        settings = self.ui.settings_menu
+        settings.setVisible(not settings.isVisible())

@@ -22,3 +22,7 @@ class BaseMod(ABC, QWidget):
     @abstractmethod
     def resume(self):
         pass
+
+    @abstractmethod
+    def settings(self) -> QWidget:
+        pass

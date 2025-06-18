@@ -7,6 +7,8 @@ class WebMod(BaseMod):
         pass
 
     def load(self):
+        pass
+
 
 '''
     @abstractmethod

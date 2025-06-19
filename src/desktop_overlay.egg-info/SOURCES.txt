@@ -1,10 +1,13 @@
 README.md
 pyproject.toml
 src/desktop_overlay/__init__.py
+src/desktop_overlay/definitions.py
 src/desktop_overlay/main.py
+src/desktop_overlay/utils.py
 src/desktop_overlay.egg-info/PKG-INFO
 src/desktop_overlay.egg-info/SOURCES.txt
 src/desktop_overlay.egg-info/dependency_links.txt
+src/desktop_overlay.egg-info/entry_points.txt
 src/desktop_overlay.egg-info/requires.txt
 src/desktop_overlay.egg-info/top_level.txt
 src/desktop_overlay/core/__init__.py
@@ -15,11 +18,10 @@ src/desktop_overlay/core/overlay_manager.py
 src/desktop_overlay/mods/__init__.py
 src/desktop_overlay/mods/spotify_mod/__init__.py
 src/desktop_overlay/mods/web_mod/__init__.py
+src/desktop_overlay/mods/web_mod/_web_ui.py
 src/desktop_overlay/mods/web_mod/web_mod.py
 src/desktop_overlay/ui/__init__.py
 src/desktop_overlay/ui/core_overlay_ui.py
 src/desktop_overlay/ui/layouts.py
 src/desktop_overlay/ui/themes.py
 src/desktop_overlay/ui/widgets.py
-src/desktop_overlay/utils/__init__.py
-src/desktop_overlay/utils/helper_functions.py

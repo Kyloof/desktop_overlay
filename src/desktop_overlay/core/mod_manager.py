@@ -1,5 +1,6 @@
 from .base_mod import BaseMod
 import os
+import types
 import importlib
 from ..definitions import ROOT_DIR
 
@@ -13,19 +14,28 @@ class ModManager:
     '''
     def __init__(self):
         #NOTE: mods[False] -> disabled mods, mods[True] -> enabled mods
-        self.mods: dict[bool, dict[int, BaseMod]] = {}
+        self.mods: dict[bool, dict[int, BaseMod]] = {False: {}, True: {}}
         self.MODS_PATH = os.path.join(ROOT_DIR, "mods")
 
     def detect_mods(self) -> None:
+        mod_id = 0
         '''Detect installed mod packages from the mod folder.'''
         for path in os.listdir(self.MODS_PATH):
             module_path = f"{self.MODS_PATH}/{path}"
             if os.path.isdir(module_path) and module_path.endswith("mod"):
                 for file in os.listdir(module_path):
                     if file.endswith(".py") and not file.startswith("_"):
-                        module_file = f"{module_path}/{file}"
-                        print(module_file)
-                        module = importlib.import_module(module_file)
+                        try:
+                            module_file = f"desktop_overlay.mods.{file[:-3]}.{file[:-3]}"
+                            module = importlib.import_module(module_file)
+                            class_name = ("".join(list(map(lambda x: x.capitalize(), file[:-3].split("_")))))
+                            self.mods[False][mod_id] = getattr(module, class_name)
+                            mod_id += 1
+                        except ModuleNotFoundError as e:
+                            print(f"Failed to import module {file} from path: {e}")
+        importlib.invalidate_caches()
+
+        print(self.mods)
 
     def load_mod(self, mod_id: int):
         '''Load the mod:D'''

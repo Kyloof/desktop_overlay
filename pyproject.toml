@@ -12,6 +12,7 @@ authors = [{ name = "Jan Kubów" }, { name = "Dawid Wyskwarski" }]
 dependencies = ["PySide6", "pynput"]
 
 [project.scripts]
+desktop-overlay = "desktop_overlay.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

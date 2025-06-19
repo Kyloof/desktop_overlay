@@ -1,14 +1,27 @@
-from core.base_mod import BaseMod
-from PySide6.QtWebEngineCore import QWebEngine
-
+from PySide6.QtCore import QUrl
+from desktop_overlay.core.base_mod import BaseMod
+from ._web_ui import create_ui
 
 class WebMod(BaseMod):
     def __init__(self):
+        super().__init__()
+        self.ui = None
+
+    def load(self, url=QUrl("https://www.google.com/")):
+        self.ui = create_ui(url)
+
+    def unload(self):
+        self.ui = None
+    
+    def run(self):
         pass
 
-    def load(self):
+    def stop(self):
         pass
 
+    def resume(self):
+        pass
+        
 
 '''
     @abstractmethod

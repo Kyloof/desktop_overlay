@@ -1,18 +1,33 @@
-from PySide6.QtCore import QUrl
 from desktop_overlay.core.base_mod import BaseMod
 from ._web_ui import create_ui
+from desktop_overlay.definitions import ROOT_DIR
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtCore import QUrl
 
 class WebMod(BaseMod):
-    def __init__(self):
+    name = "Web Mod"
+    description = "Enables web browser usage."
+    icon_path = f"{ROOT_DIR}/mods/web_mod/assets/web_icon.png" 
+    id = None
+    
+    def __init__(self, url=QUrl("https://www.google.com/")):
         super().__init__()
-        self.ui = None
+        self.url = url
+        self.init_ui()
 
-    def load(self, url=QUrl("https://www.google.com/")):
-        self.ui = create_ui(url)
+    def init_ui(self):
+        layout = QVBoxLayout(self)
+        self.web_view = QWebEngineView(self)
+        layout.addWidget(self.web_view)
+        self.web_view.setUrl(self.url)
+
+    def load(self):
+        self.show()
 
     def unload(self):
-        self.ui = None
-    
+        self.hide()
+
     def run(self):
         pass
 
@@ -21,25 +36,3 @@ class WebMod(BaseMod):
 
     def resume(self):
         pass
-        
-
-'''
-    @abstractmethod
-    dl ef load(self):
-          pass
-
-      @abstractmethod
-      def unload(self):
-          pass
-
-      @abstractmethod
-      def run(self):
-          pass
-
-      @abstractmethod
-      def stop(self):
-          pass
-
-      @abstractmethod
-      def resume(self):
-          pass'''

@@ -14,7 +14,7 @@ from pynput import keyboard
 
 
 class OverlayManager(QMainWindow):
-    def __init__(self):
+    def __init__(self, screen_nr: int = 0):
         super().__init__()
         ### For now, might change in the future, left ctrl + 0
         self.seq = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}
@@ -22,10 +22,11 @@ class OverlayManager(QMainWindow):
         self.ui = UiOverlay()
         self.ui.set_up_ui(self)
 
+        screens = QApplication.screens()
+
         ### Making it fullscreen
-        screen_geometry = QApplication.primaryScreen().geometry()
+        screen_geometry = screens[screen_nr].geometry()
         self.setGeometry(screen_geometry)
-        self.move(0, 0)
 
         ### React when the sequence is pressed
         HotkeyManager(self.seq, self._toggle_window_visibility)

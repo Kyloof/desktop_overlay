@@ -1,6 +1,7 @@
 '''
 UiOverlay - class with GUI of the overlay
 '''
+from desktop_overlay.definitions import ROOT_DIR
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel,
     QListView, QMainWindow, QMdiArea, 
@@ -8,7 +9,8 @@ from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel,
     QVBoxLayout, QWidget, QGraphicsDropShadowEffect)
 from PySide6.QtWidgets import QMainWindow, QLabel, QPushButton, QWidget, QVBoxLayout
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QColor, QBrush
+from PySide6.QtGui import QColor, QBrush, QIcon, QPixmap
+from desktop_overlay.ui.themes import style_navigation_buttons
 
 class UiOverlay(object):
     def set_up_ui(self, MainWindow: QMainWindow):
@@ -82,14 +84,15 @@ class UiOverlay(object):
         self.top_h_layout = QHBoxLayout(self.top_bar)
 
         self.settings_button = QPushButton(self.top_bar)
-        self.settings_button.setText("\u2699")
+        style_navigation_buttons(self.settings_button, 72, f"{ROOT_DIR}/ui/assets/overlay_settings.png")
         self.top_h_layout.addWidget(self.settings_button)
 
         self.center_spacer_top = QSpacerItem(20, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         self.top_h_layout.addItem(self.center_spacer_top)
 
         self.exit_button = QPushButton(self.top_bar)
-        self.exit_button.setText("\u2716")
+        style_navigation_buttons(self.exit_button, 72, f"{ROOT_DIR}/ui/assets/overlay_close.png")
+        
         self.top_h_layout.addWidget(self.exit_button)
 
         self.panel_v_layout.addWidget(self.top_bar)

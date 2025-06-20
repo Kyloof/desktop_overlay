@@ -49,6 +49,10 @@ class ModManager:
             mod = self.mods[mod_id]
             self.enabled_mods[mod_id] = mod()
 
+    def enable_all(self):
+        for id in self.mods.keys():
+            self.enable_mod(id)
+
     def disable_mod(self, mod_id: int):
         '''Disable the mod'''
         if mod_id in self.enabled_mods:
@@ -66,7 +70,3 @@ class ModManager:
         for mod in self.mods.values():
             info.append((mod.id, mod.name, mod.description))
         return info
-
-mm = ModManager()
-mm.detect_mods()
-print(mm.get_mods_info())

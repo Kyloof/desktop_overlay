@@ -1,5 +1,5 @@
 from desktop_overlay.core.base_mod import BaseMod
-from ._web_ui import create_ui
+#from ._web_ui import create_ui
 from desktop_overlay.definitions import ROOT_DIR
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWebEngineWidgets import QWebEngineView

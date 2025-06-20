@@ -1,3 +1,7 @@
+'''
+HotKeyMenager - class to manage keyboard sequences to trigger the overlay.
+It listens for key presses and checks if the current sequence matches the activation sequence.
+'''
 from pynput import keyboard
 import threading
 

@@ -130,9 +130,3 @@ class UiOverlay(object):
         self.bottom_horizontal_layout.setStretch(1,1)
         
         self.panel_v_layout.addWidget(self.bottom_bar)
-
-        #vbox = QVBoxLayout(self.central_widget)
-
-        #self.exit = QPushButton('Exit')
-
-        #vbox.addWidget(self.exit_button, alignment=Qt.AlignHCenter)

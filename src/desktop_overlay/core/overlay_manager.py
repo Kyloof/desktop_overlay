@@ -2,7 +2,7 @@
 OverlayManager - class that adds functionality to the GUI
 """
 
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtWidgets import QMainWindow, QApplication, QMdiSubWindow
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QKeySequence, QAction, QShortcut
 
@@ -23,10 +23,12 @@ class OverlayManager(QMainWindow):
         self.seq = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}
 
         self.mod_manager = ModManager()
-
         self.mod_manager.detect_mods()
         self.mod_manager.enable_all()
-        self.model = ModListModel(list(self.mod_manager.enabled_mods.values())) 
+
+        self.enabled_mods = list(self.mod_manager.enabled_mods.values())
+
+        self.model = ModListModel(self.enabled_mods) 
 
         self.ui = UiOverlay()
         self.ui.set_up_ui(self)
@@ -46,6 +48,19 @@ class OverlayManager(QMainWindow):
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
         self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
 
+        self.ui.mod_list.clicked.connect(self._mod_clicked)
+
+    def _mod_clicked(self, index):
+        
+        mod = self.enabled_mods[index.row()]
+
+        sub = QMdiSubWindow()
+        sub.setWidget(mod)
+        
+        self.ui.mod_windows_area.addSubWindow(sub)
+        sub.show()
+
+    
     def _toggle_window_visibility(self):
         self.setVisible(not self.isVisible())
 

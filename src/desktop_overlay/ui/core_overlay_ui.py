@@ -91,7 +91,7 @@ class UiOverlay(object):
         self.top_h_layout.addItem(self.center_spacer_top)
 
         self.exit_button = QPushButton(self.top_bar)
-        style_navigation_buttons(self.exit_button, 72, f"{ROOT_DIR}/ui/assets/overlay_close.png")
+        style_navigation_buttons(self.exit_button, 68, f"{ROOT_DIR}/ui/assets/overlay_close.png")
         
         self.top_h_layout.addWidget(self.exit_button)
 
@@ -116,10 +116,14 @@ class UiOverlay(object):
         self.mod_dock.setFrameShadow(QFrame.Shadow.Raised)
         
         self.dock_horizontal_layout = QHBoxLayout(self.mod_dock)
-        self.dock_horizontal_layout.setContentsMargins(10,10,10,10)
-
+        self.dock_horizontal_layout.setContentsMargins(20,10,20,10)
         self.mod_list = QListView(self.mod_dock)
         self.mod_list.setStyleSheet("background-color: transparent;")
+        self.mod_list.setFlow(QListView.Flow.LeftToRight)
+        self.mod_list.setWrapping(True)
+        self.mod_list.setIconSize(QSize(48,48))
+
+
         self.dock_horizontal_layout.addWidget(self.mod_list)
 
         self.bottom_horizontal_layout.addWidget(self.mod_dock)

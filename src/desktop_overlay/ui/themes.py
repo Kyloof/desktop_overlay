@@ -6,7 +6,7 @@ from PySide6.QtCore import QSize
 def style_navigation_buttons(button: QPushButton, dim: int, icon_path: str):
     button.setFixedSize(dim, dim)
     button.setIcon(QIcon(icon_path))
-    button.setIconSize(QSize(72, 72))
+    button.setIconSize(QSize(dim, dim))
     ### Little hover effect :O
     button.setStyleSheet("""
         QPushButton {

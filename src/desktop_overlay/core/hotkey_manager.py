@@ -1,12 +1,13 @@
 '''
-HotKeyMenager - class to manage keyboard sequences to trigger the overlay.
+HotkeyMenager - class to manage keyboard sequences to trigger the overlay.
 It listens for key presses and checks if the current sequence matches the activation sequence.
 '''
 from pynput import keyboard
 import threading
+import time
 
 class HotkeyManager:
-    def __init__(self, sequence: set, activation_function):
+    def __init__(self, activation_function, sequence: set = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}):
         self.activation_sequence = sequence
         self.activation_function = activation_function
         self._current_sequence = set()
@@ -28,3 +29,7 @@ class HotkeyManager:
 
     def _release(self, key):
         self._current_sequence.discard(key)
+
+    #TODO:
+    def change_activation_sequence(self):
+        pass

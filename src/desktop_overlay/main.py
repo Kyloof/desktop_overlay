@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QApplication
 from desktop_overlay.core.overlay_manager import OverlayManager
 import sys
 
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     window = OverlayManager()
     window.show()

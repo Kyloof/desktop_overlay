@@ -14,7 +14,6 @@ class ModManager:
     There you can enable or disable them which would invoke the load or unload mod function in ModManager.
     '''
     def __init__(self):
-        #NOTE: mods[False] -> disabled mods, mods[True] -> enabled mods
         self.mods: dict[int, Type[BaseMod]] = {}
         self.enabled_mods: dict[int, BaseMod] = {}
 

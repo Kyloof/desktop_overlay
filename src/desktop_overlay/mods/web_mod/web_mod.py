@@ -9,6 +9,7 @@ class WebMod(BaseMod):
     name = "Web Mod"
     description = "Enables web browser usage."
     icon_path = f"{ROOT_DIR}/mods/web_mod/assets/web_icon.png" 
+    is_open = False
     id = None
     
     def __init__(self, url=QUrl("https://www.google.com/")):

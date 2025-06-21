@@ -10,6 +10,7 @@ class YtMusicMod(BaseMod):
     name = "YTMusic Mod"
     description = "View currently played song on YT Music and control it."
     icon_path = f"{ROOT_DIR}/mods/yt_music_mod/assets/yt_music_icon.png"
+    is_open = False
     id = None
 
     def __init__(self):

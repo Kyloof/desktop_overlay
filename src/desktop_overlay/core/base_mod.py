@@ -38,6 +38,12 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
         '''path to the mod icon'''
         pass
 
+    @property
+    @abstractmethod
+    def is_open(self) -> bool:
+        '''flag if the mod i currently open'''
+        pass
+
     @abstractmethod
     def load(self) -> None:
         '''
@@ -71,7 +77,7 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
         Wake up the thread
         '''
         pass
-
+    
     #TODO: SETTINGS
     '''
     @abstractmethod

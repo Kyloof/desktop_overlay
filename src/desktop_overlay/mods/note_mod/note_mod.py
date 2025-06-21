@@ -8,6 +8,7 @@ class NoteMod(BaseMod):
     name = "Note Mod"
     description = "A simple text box for writing notes."
     icon_path = f"{ROOT_DIR}/mods/note_mod/assets/note_icon.png"
+    is_open = False
     id = None
     
     def __init__(self):

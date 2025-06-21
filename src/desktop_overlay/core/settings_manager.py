@@ -25,7 +25,7 @@ class SettingsManager():
         '''Initializes and setups the screens for settings'''
         self.screens = screens
         if len(self.screens) > selected_screen_nr:
-            print(selected_screen_nr)
+            #print(selected_screen_nr)
             self.active_screen = self.screens[selected_screen_nr]
 
     def list_screens(self):

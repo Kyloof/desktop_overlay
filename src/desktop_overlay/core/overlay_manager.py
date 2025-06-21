@@ -70,14 +70,3 @@ class OverlayManager(QMainWindow):
         settings = self.ui.settings_menu
         settings.setVisible(not settings.isVisible())
 
-    def test(self):
-        print(self.settings_manager.list_screens())
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    om = OverlayManager()
-    om.test()
-    om.show()
-    sys.exit(app.exec())

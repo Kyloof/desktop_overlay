@@ -21,9 +21,10 @@ class WebMod(BaseMod):
         self.web_view = QWebEngineView(self)
         layout.addWidget(self.web_view)
         self.web_view.setUrl(self.url)
-
+        
     def load(self):
         self.show()
+        self.setFocus()
 
     def unload(self):
         self.hide()

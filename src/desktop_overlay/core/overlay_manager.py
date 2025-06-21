@@ -3,7 +3,7 @@ OverlayManager - class that adds functionality to the GUI
 """
 
 from PySide6.QtWidgets import QMainWindow, QApplication, QMdiSubWindow
-from PySide6.QtCore import QCoreApplication, Qt
+from PySide6.QtCore import QCoreApplication, Qt, QTimer
 from PySide6.QtGui import QKeySequence, QAction, QShortcut
 
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
@@ -11,12 +11,22 @@ from desktop_overlay.core.hotkey_manager import HotkeyManager
 from desktop_overlay.core.mod_manager import ModManager
 from desktop_overlay.core.settings_manager import SettingsManager
 from desktop_overlay.ui.mod_list_model import ModListModel
+from desktop_overlay.ui.custom_mdi_window import CustomMDIWindow
 
 class OverlayManager(QMainWindow):
     
     def __init__(self, screen_number: int = 0):
         super().__init__()
-        
+
+        ### Qt.X11BypassWindowManagerHint needs to stay,
+        ### it fucks everything up but for the love of god it needs to stay
+        ### oterwise everything will be even more fucked
+        self.setWindowFlags(
+            Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.X11BypassWindowManagerHint
+        )
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFocusPolicy(Qt.StrongFocus)
+
         ### Managers
         self.mod_manager = ModManager()
         self.hotkey_manager = HotkeyManager(self._toggle_window_visibility)
@@ -53,18 +63,32 @@ class OverlayManager(QMainWindow):
     def _mod_clicked(self, index):
         mod = self.enabled_mods[index.row()]
 
-        sub = QMdiSubWindow()
-        sub.setWidget(mod)
+        if not mod.is_open:
+            sub = CustomMDIWindow()
+            sub.setWidget(mod)
         
-        self.ui.mod_windows_area.addSubWindow(sub)
-        sub.show()
+            self.ui.mod_windows_area.addSubWindow(sub)
+            sub.show()
+
+            mod.is_open = True
+
+            ### God bless tomascapek from stackoverflow <3
+            ### https://stackoverflow.com/questions/33244271/window-doesnt-get-focus-when-using-qtx11bypasswindowmanagerhint-flag
+            ### Proof that stackoverflow is better than AI
+            ### this piece of shit of a line fixes everything
+            self.activateWindow()
+        else:
+            print('Mod is already opened')
+
 
     def _toggle_window_visibility(self):
-        self.setVisible(not self.isVisible())
-        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setFocusPolicy(Qt.StrongFocus)
-        self.setFocus()
+        if not self.isVisible():
+            self.show()
+            self.raise_()
+            self.activateWindow()
+            self.setFocus()
+        else:
+            self.hide()
 
     def _toggle_settings_visibility(self):
         settings = self.ui.settings_menu

@@ -22,10 +22,8 @@ class ModListModel(QAbstractListModel):
             return QIcon(mod.icon_path)
         elif role == Qt.ToolTipRole:
             return mod.name
-        return None
+        elif role == Qt.DisplayRole:
+            ### If time allow, fix this 
+            return "   "
 
-    def flags(self, index):
-        if not index.isValid():
-            return Qt.NoItemFlags
-        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
         

@@ -118,7 +118,9 @@ class UiOverlay(object):
         self.dock_horizontal_layout = QHBoxLayout(self.mod_dock)
         self.dock_horizontal_layout.setContentsMargins(20,10,20,10)
         self.mod_list = QListView(self.mod_dock)
-        self.mod_list.setStyleSheet("background-color: transparent;")
+        self.mod_list.setStyleSheet("""
+            background-color: transparent;                        
+        """)
         self.mod_list.setFlow(QListView.Flow.LeftToRight)
         self.mod_list.setWrapping(True)
         self.mod_list.setIconSize(QSize(48,48))

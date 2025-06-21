@@ -8,6 +8,16 @@ import sys
 
 def main():
     app = QApplication(sys.argv)
+    app.setStyleSheet("""
+        QToolTip {
+            color: white;
+            padding: 3px;
+            font-size: 14px;
+            border: 1px solid white;
+        }    
+    """)
+
+
     window = OverlayManager()
     window.show()
 

@@ -1,17 +1,18 @@
 from desktop_overlay.core.base_mod import BaseMod
-#from ._web_ui import create_ui
+# from ._web_ui import create_ui
 from desktop_overlay.definitions import ROOT_DIR
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl
 
+
 class WebMod(BaseMod):
     name = "Web Mod"
     description = "Enables web browser usage."
-    icon_path = f"{ROOT_DIR}/mods/web_mod/assets/web_icon.png" 
+    icon_path = f"{ROOT_DIR}/mods/web_mod/assets/web_icon.png"
     is_open = False
     id = None
-    
+
     def __init__(self, url=QUrl("https://www.google.com/")):
         super().__init__()
         self.url = url
@@ -22,19 +23,3 @@ class WebMod(BaseMod):
         self.web_view = QWebEngineView(self)
         layout.addWidget(self.web_view)
         self.web_view.setUrl(self.url)
-        
-    def load(self):
-        self.show()
-        self.setFocus()
-
-    def unload(self):
-        self.hide()
-
-    def run(self):
-        pass
-
-    def stop(self):
-        pass
-
-    def resume(self):
-        pass

@@ -36,7 +36,7 @@ class SettingsManager():
         '''Returns a list of strings representing each detected screen'''
         tmp = self.list_screens()
 
-        return [f"{idx} - {disp.name()}" for idx, disp in tmp]
+        return [f"  {idx} - {disp.name()}" for idx, disp in tmp]
 
     def get_screen_geometry(self):
         '''Returns active screen geometry'''

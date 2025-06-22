@@ -10,6 +10,7 @@ class NoteMod(BaseMod):
     icon_path = f"{ROOT_DIR}/mods/note_mod/assets/note_icon.png"
     is_open = False
     id = None
+    default_size = (300,400)
 
     def __init__(self):
         super().__init__()

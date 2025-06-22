@@ -13,6 +13,7 @@ class YtMusicMod(BaseMod):
     icon_path = f"{ROOT_DIR}/mods/yt_music_mod/assets/yt_music_icon.png"
     is_open = False
     id = None
+    default_size = (475,550)
 
     def __init__(self):
         super().__init__()

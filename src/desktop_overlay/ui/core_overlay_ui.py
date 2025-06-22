@@ -155,6 +155,7 @@ class UiOverlay(object):
         tmp_set_hl1.addWidget(display_lab)
 
         self.display_selector = QComboBox(tmp_set_frame1)
+        self.display_selector.setFixedHeight(40)
         self.display_selector.setStyleSheet("""
             background: #232323;
             color: #e0e0e0;

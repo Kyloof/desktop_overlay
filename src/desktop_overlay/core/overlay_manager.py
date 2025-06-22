@@ -59,6 +59,11 @@ class OverlayManager(QMainWindow):
         ### Open mods
         self.ui.mod_list.clicked.connect(self._mod_clicked)
         
+        ### Connecting settings
+        ### changing the shortcut is not working yet
+        self.ui.edit_shortcut.clicked.connect(self.settings_manager.change_overlay_shortcut)
+        self.ui.display_selector.addItems(self.settings_manager.get_screens_strings())
+
         self._toggle_window_visibility()
 
     def set_screen(self):

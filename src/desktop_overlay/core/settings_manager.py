@@ -31,6 +31,12 @@ class SettingsManager():
     def list_screens(self):
         '''Lists available screens'''
         return [(idx, screen) for idx, screen in enumerate(self.screens)]
+    
+    def get_screens_strings(self):
+        '''Returns a list of strings representing each detected screen'''
+        tmp = self.list_screens()
+
+        return [f"{idx} - {disp.name()}" for idx, disp in tmp]
 
     def get_screen_geometry(self):
         '''Returns active screen geometry'''

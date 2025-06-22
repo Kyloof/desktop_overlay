@@ -45,3 +45,18 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     def is_open(self) -> bool:
         '''flag if the mod i currently open'''
         pass
+
+    @property
+    @abstractmethod
+    def default_size(self) -> tuple[int, int]:
+        '''A tuple that takes default (width, height) for a mod window'''
+        pass
+
+    @abstractmethod
+    def remove_state(self) -> None:
+        '''Remove the state of the widget'''
+        pass
+    
+    @abstractmethod
+    def load_state(self) -> None:
+        '''Load the state of the widget'''

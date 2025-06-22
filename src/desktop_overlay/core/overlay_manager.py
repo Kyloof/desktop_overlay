@@ -65,6 +65,7 @@ class OverlayManager(QMainWindow):
 
         if not mod.is_open:
             sub = CustomMDIWindow(mod_name=mod.name, mod_icon=mod.icon_path)
+            mod.load_state()
             sub.setWidget(mod)
         
             self.ui.mod_windows_area.addSubWindow(sub)

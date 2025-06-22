@@ -59,12 +59,6 @@ class ModManager:
             mod = self.enabled_mods.pop(mod_id)
             mod.unload()
 
-    def load_mod(self, mod_id: int):
-        '''Load the mod:D'''
-        if mod_id in self.enabled_mods:
-            module = self.enabled_mods[mod_id]
-            module.load()
-    
     def get_mods_info(self):
         info = []
         for mod in self.mods.values():

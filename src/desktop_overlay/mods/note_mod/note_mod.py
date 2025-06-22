@@ -13,9 +13,14 @@ class NoteMod(BaseMod):
 
     def __init__(self):
         super().__init__()
-        self.init_ui()
+        self.main_layout = QVBoxLayout(self)
 
-    def init_ui(self):
-        layout = QVBoxLayout(self)
+    def load_state(self) -> None:
         self.text_edit = QTextEdit()
-        layout.addWidget(self.text_edit)
+        self.main_layout.addWidget(self.text_edit)
+
+    def remove_state(self) -> None:
+        if self.text_edit != None:
+            self.main_layout.removeWidget(self.text_edit)
+            self.text_edit.deleteLater()
+            self.text_edit = None

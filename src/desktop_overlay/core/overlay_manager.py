@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QMainWindow, QApplication, QMdiSubWindow
 from PySide6.QtCore import QCoreApplication, Qt, QTimer
 from PySide6.QtGui import QKeySequence, QAction, QShortcut
 
+from desktop_overlay.core import hotkey_manager
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
 from desktop_overlay.core.hotkey_manager import HotkeyManager
 from desktop_overlay.core.mod_manager import ModManager
@@ -50,6 +51,9 @@ class OverlayManager(QMainWindow):
         
         ### This button will ultimately hide the overlay but i right now i need something to close the app
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
+        # Works but in a weird way
+        self.ui.exit_button.clicked.connect(self.hotkey_manager.stop)
+
         self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
 
         ### Open mods

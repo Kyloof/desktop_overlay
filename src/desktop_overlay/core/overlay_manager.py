@@ -64,7 +64,7 @@ class OverlayManager(QMainWindow):
         mod = self.enabled_mods[index.row()]
 
         if not mod.is_open:
-            sub = CustomMDIWindow()
+            sub = CustomMDIWindow(mod_name=mod.name, mod_icon=mod.icon_path)
             sub.setWidget(mod)
         
             self.ui.mod_windows_area.addSubWindow(sub)
@@ -79,7 +79,6 @@ class OverlayManager(QMainWindow):
             self.activateWindow()
         else:
             print('Mod is already opened')
-
 
     def _toggle_window_visibility(self):
         if not self.isVisible():

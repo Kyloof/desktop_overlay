@@ -2,11 +2,12 @@
 UiOverlay - class with GUI of the overlay
 '''
 from desktop_overlay.definitions import ROOT_DIR
+
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel,
     QListView, QMainWindow, QMdiArea, 
     QPushButton, QSizePolicy, QSpacerItem, 
-    QVBoxLayout, QWidget, QGraphicsDropShadowEffect)
+    QVBoxLayout, QWidget, QGraphicsDropShadowEffect, QTextBrowser)
 from PySide6.QtWidgets import QMainWindow, QLabel, QPushButton, QWidget, QVBoxLayout
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QColor, QBrush, QIcon, QPixmap
@@ -36,20 +37,91 @@ class UiOverlay(object):
 
     def _set_up_settings_menu(self):
         self.settings_menu = QFrame(self.central_widget)
-        self.settings_menu.setMinimumSize(300,0)
+        self.settings_menu.setMinimumSize(400,0)
         self.settings_menu.setStyleSheet("""
             background-color: #141414;
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
             border-top-left-radius: 0px;
             border-bottom-left-radius: 0px;
+                                         
+            padding-top: 7px;
         """)
         self.settings_menu.setFrameShape(QFrame.Shape.StyledPanel)
         self.settings_menu_vl = QVBoxLayout(self.settings_menu)
         self.settings_label = QLabel(self.settings_menu)
         self.settings_label.setText("Settings")
+        self.settings_label.setStyleSheet("font: 24px;")
+        self.settings_label.setAlignment(Qt.AlignHCenter)
 
         self.settings_menu_vl.addWidget(self.settings_label)
+        
+        tmp_set_frame = QFrame(self.settings_menu)
+        tmp_set_frame.setFixedHeight(125)
+        tmp_set_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        
+        tmp_set_frame.setStyleSheet("""
+            background-color: #5e5e5e;
+            border-radius: 20px;
+            margin-top: 32px;
+            margin-left: 20px;
+            margin-right: 20px;
+            padding:0px;
+        """)
+        
+        tmp_set_hl = QHBoxLayout(tmp_set_frame)
+        tmp_set_hl.setContentsMargins(20, 20, 20, 20)
+        tmp_set_hl.setSpacing(16)
+
+        hotkey_lab = QLabel(tmp_set_frame)
+        hotkey_lab.setMaximumHeight(50)
+        hotkey_lab.setText("Overlay shortcut")
+        hotkey_lab.setStyleSheet("""
+            color: #fafafa;
+            font-size: 20px;
+            font-weight: 500;
+            margin:0px;
+        """)
+
+        tmp_set_hl.addWidget(hotkey_lab, stretch=1)
+
+        self.saved_shortcut = QTextBrowser(tmp_set_frame)
+        self.saved_shortcut.setMaximumHeight(40)
+        self.saved_shortcut.setFixedWidth(170)
+        self.saved_shortcut.setText("Ctrl + 0")
+        self.saved_shortcut.setStyleSheet("""
+            background: #232323;
+            color: #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 6px 12px;
+            margin:0px
+        """)
+
+        tmp_set_hl.addWidget(self.saved_shortcut)
+
+        self.edit_shortcut = QPushButton(tmp_set_frame)
+        self.edit_shortcut.setText('Edit')
+        self.edit_shortcut.setStyleSheet("""
+            QPushButton {
+            background-color: #2d8cf0;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 16px;
+            margin:0px;
+            }
+            QPushButton:hover {
+            background-color: #1a73e8;
+            }
+        """)
+
+        tmp_set_hl.addWidget(self.edit_shortcut)
+
+        self.settings_menu_vl.addWidget(tmp_set_frame)
+
         self.settings_menu_vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.settings_menu_vl.addItem(self.settings_menu_vertical_spacer)

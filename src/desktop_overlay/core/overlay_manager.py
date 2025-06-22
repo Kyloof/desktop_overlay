@@ -7,6 +7,7 @@ from PySide6.QtCore import QCoreApplication, Qt, QTimer
 from PySide6.QtGui import QKeySequence, QAction, QShortcut
 
 from desktop_overlay.core import hotkey_manager
+from desktop_overlay.core import settings_manager
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
 from desktop_overlay.core.hotkey_manager import HotkeyManager
 from desktop_overlay.core.mod_manager import ModManager
@@ -43,6 +44,8 @@ class OverlayManager(QMainWindow):
         self.ui = UiOverlay()
         self.ui.set_up_ui(self)
         self.ui.mod_list.setModel(self.model)
+        print(self.hotkey_manager.activation_sequence)
+        self.ui.saved_shortcut.setText("+".join(str(s) for s in self.hotkey_manager.activation_sequence))
 
         ### Making it fullscreen
         self.screens = QApplication.screens()
@@ -53,6 +56,7 @@ class OverlayManager(QMainWindow):
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
         # Works but in a weird way
         self.ui.exit_button.clicked.connect(self.hotkey_manager.stop)
+        self.hotkey_manager.changed.connect(self._change_displayed_shortcut)
 
         self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
 
@@ -63,6 +67,7 @@ class OverlayManager(QMainWindow):
         ### changing the shortcut is not working yet
         self.ui.edit_shortcut.clicked.connect(self.settings_manager.change_overlay_shortcut)
         self.ui.display_selector.addItems(self.settings_manager.get_screens_strings())
+
 
         self._toggle_window_visibility()
 
@@ -103,3 +108,5 @@ class OverlayManager(QMainWindow):
         settings = self.ui.settings_menu
         settings.setVisible(not settings.isVisible())
 
+    def _change_displayed_shortcut(self, new_shortuct: str) -> None:
+        self.ui.saved_shortcut.setText(new_shortuct)

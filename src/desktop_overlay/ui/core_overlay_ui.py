@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QMainWindow, QLabel, QPushButton, QWidget, QVBoxLa
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QColor, QBrush, QIcon, QPixmap
 from desktop_overlay.ui.themes import style_navigation_buttons
+from PySide6.QtWidgets import QComboBox
 
 class UiOverlay(object):
     def set_up_ui(self, MainWindow: QMainWindow):
@@ -119,8 +120,54 @@ class UiOverlay(object):
         """)
 
         tmp_set_hl.addWidget(self.edit_shortcut)
-
+        
         self.settings_menu_vl.addWidget(tmp_set_frame)
+
+        ####################################
+        
+        tmp_set_frame1 = QFrame(self.settings_menu)
+        tmp_set_frame1.setFixedHeight(125)
+        tmp_set_frame1.setFrameShape(QFrame.Shape.StyledPanel)
+        
+        tmp_set_frame1.setStyleSheet("""
+            background-color: #5e5e5e;
+            border-radius: 20px;
+            margin-top: 32px;
+            margin-left: 20px;
+            margin-right: 20px;
+            padding:0px;
+        """)
+        
+        tmp_set_hl1 = QHBoxLayout(tmp_set_frame1)
+        tmp_set_hl1.setContentsMargins(20, 20, 20, 20)
+        tmp_set_hl1.setSpacing(16)
+
+        display_lab = QLabel(tmp_set_frame1)
+        display_lab.setMaximumHeight(50)
+        display_lab.setText("Display selection")
+        display_lab.setStyleSheet("""
+            color: #fafafa;
+            font-size: 20px;
+            font-weight: 500;
+            margin:0px;
+        """)
+
+        tmp_set_hl1.addWidget(display_lab)
+
+        self.display_selector = QComboBox(tmp_set_frame1)
+        self.display_selector.setStyleSheet("""
+            background: #232323;
+            color: #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 6px;
+            margin:0px
+        """)
+
+        tmp_set_hl1.addWidget(self.display_selector)
+
+        self.settings_menu_vl.addWidget(tmp_set_frame1)
 
         self.settings_menu_vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 

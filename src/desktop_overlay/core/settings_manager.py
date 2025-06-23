@@ -1,5 +1,6 @@
 from desktop_overlay.core.hotkey_manager import HotkeyManager
 from PySide6.QtGui import QScreen
+from PySide6.QtCore import QRect
 
 class SettingsManager():
     '''
@@ -15,7 +16,7 @@ class SettingsManager():
         '''Change overlay shorcut'''
         self.hotkey_manager.change_activation_sequence()
 
-    def select_screen(self, selected_screen_nr):
+    def select_screen(self, selected_screen_nr: int) -> tuple[QRect, int, int]:
         '''Select on which screen to run the overlay'''
         print(selected_screen_nr)
         self.active_screen = self.screens[selected_screen_nr]
@@ -23,24 +24,24 @@ class SettingsManager():
             self.active_screen = self.screens[selected_screen_nr]
         return self._get_screen_geometry()
 
-    def setup_screens(self, screens: list[QScreen], selected_screen_nr: int):
+    def setup_screens(self, screens: list[QScreen], selected_screen_nr: int) -> None:
         '''Initializes and setups the screens for settings'''
         self.screens = screens
         if len(self.screens) > selected_screen_nr:
             #print(selected_screen_nr)
             self.active_screen = self.screens[selected_screen_nr]
 
-    def list_screens(self):
+    def list_screens(self) -> list[tuple[int, QScreen]]:
         '''Lists available screens'''
         return [(idx, screen) for idx, screen in enumerate(self.screens)]
     
-    def get_screens_strings(self):
+    def get_screens_strings(self) -> list[str]:
         '''Returns a list of strings representing each detected screen'''
         tmp = self.list_screens()
 
         return [f"  {idx} - {disp.name()}" for idx, disp in tmp]
 
-    def _get_screen_geometry(self):
+    def _get_screen_geometry(self) -> tuple[QRect, int, int]:
         '''Returns active screen geometry'''
         if not self.active_screen:
             raise RuntimeError("No active screen selected.")

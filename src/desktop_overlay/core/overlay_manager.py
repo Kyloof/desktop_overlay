@@ -51,7 +51,7 @@ class OverlayManager(QMainWindow):
         ### Making it fullscreen
         self.screens = QApplication.screens()
         self.settings_manager.setup_screens(self.screens, screen_number)
-        self.set_screen()
+        self._set_screen(0)
         
         ### This button will ultimately hide the overlay but i right now i need something to close the app
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
@@ -69,13 +69,16 @@ class OverlayManager(QMainWindow):
         ### changing the shortcut is not working yet
         self.ui.edit_shortcut.clicked.connect(self.settings_manager.change_overlay_shortcut)
         self.ui.display_selector.addItems(self.settings_manager.get_screens_strings())
+        self.ui.display_selector.currentIndexChanged.connect(self._set_screen)
 
 
         self._toggle_window_visibility()
 
-    def set_screen(self):
-        self.setGeometry(self.settings_manager.get_screen_geometry())
-    
+    def _set_screen(self, index):
+        geometry, center_x, center_y = self.settings_manager.select_screen(index)
+        self.setGeometry(geometry)
+        self.move(center_x, center_y)
+
     def _mod_clicked(self, index):
         mod = self.enabled_mods[index.row()]
 
@@ -111,3 +114,4 @@ class OverlayManager(QMainWindow):
 
     def _change_displayed_shortcut(self, new_shortuct: str) -> None:
         self.ui.saved_shortcut.setText(new_shortuct)
+

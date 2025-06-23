@@ -17,9 +17,11 @@ class SettingsManager():
 
     def select_screen(self, selected_screen_nr):
         '''Select on which screen to run the overlay'''
+        print(selected_screen_nr)
         self.active_screen = self.screens[selected_screen_nr]
         if len(self.screens) > selected_screen_nr:
             self.active_screen = self.screens[selected_screen_nr]
+        return self._get_screen_geometry()
 
     def setup_screens(self, screens: list[QScreen], selected_screen_nr: int):
         '''Initializes and setups the screens for settings'''
@@ -38,8 +40,11 @@ class SettingsManager():
 
         return [f"  {idx} - {disp.name()}" for idx, disp in tmp]
 
-    def get_screen_geometry(self):
+    def _get_screen_geometry(self):
         '''Returns active screen geometry'''
         if not self.active_screen:
             raise RuntimeError("No active screen selected.")
-        return self.active_screen.geometry()
+        screen_geometry = self.active_screen.geometry()
+        center_x = screen_geometry.x() 
+        center_y = screen_geometry.y() 
+        return screen_geometry, center_x, center_y

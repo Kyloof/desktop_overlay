@@ -165,6 +165,7 @@ class UiOverlay(object):
             padding: 6px;
             margin:0px
         """)
+        
 
         tmp_set_hl1.addWidget(self.display_selector)
 

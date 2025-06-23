@@ -20,6 +20,7 @@ class WebMod(BaseMod):
         self.url = url
         self.web_view = None
         self.main_layout = QVBoxLayout(self)
+        self.load_state()
 
     def load_state(self):
         ### Web engine

@@ -6,3 +6,5 @@ Author: Jan Kubów, Dawid Wyskwarski
 Requires-Python: >=3.8
 Requires-Dist: PySide6
 Requires-Dist: pynput
+Requires-Dist: pystray
+Requires-Dist: pillow

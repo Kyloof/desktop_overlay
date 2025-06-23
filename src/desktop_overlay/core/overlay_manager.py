@@ -2,12 +2,9 @@
 OverlayManager - class that adds functionality to the GUI
 """
 
-from PySide6.QtWidgets import QMainWindow, QApplication, QMdiSubWindow
-from PySide6.QtCore import QCoreApplication, Qt, QTimer
-from PySide6.QtGui import QKeySequence, QAction, QShortcut
+from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtCore import QCoreApplication, Qt
 
-from desktop_overlay.core import hotkey_manager
-from desktop_overlay.core import settings_manager
 from desktop_overlay.core import mod_manager
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
 from desktop_overlay.core.hotkey_manager import HotkeyManager
@@ -15,6 +12,7 @@ from desktop_overlay.core.mod_manager import ModManager
 from desktop_overlay.core.settings_manager import SettingsManager
 from desktop_overlay.ui.mod_list_model import ModListModel
 from desktop_overlay.ui.custom_mdi_window import CustomMDIWindow
+from desktop_overlay.ui.system_tray import OverlayTray
 
 class OverlayManager(QMainWindow):
     
@@ -45,22 +43,21 @@ class OverlayManager(QMainWindow):
         self.ui = UiOverlay()
         self.ui.set_up_ui(self)
         self.ui.mod_list.setModel(self.model)
-        print(self.hotkey_manager.activation_sequence)
         self.ui.saved_shortcut.setText("+".join(str(s) for s in self.hotkey_manager.activation_sequence))
+        self.overlay_tray = OverlayTray()
+        self.overlay_tray.open_action.triggered.connect(self._toggle_window_visibility)
+        self.overlay_tray.quit_action.triggered.connect(QCoreApplication.quit)
+        self.overlay_tray.quit_action.triggered.connect(self.hotkey_manager.stop)
+        self.overlay_tray.quit_action.triggered.connect(self.mod_manager.disable_all)
 
         ### Making it fullscreen
         self.screens = QApplication.screens()
         self.settings_manager.setup_screens(self.screens, screen_number)
-        self._set_screen(0)
+        self._set_screen(0) #should be saved value
         
-        ### This button will ultimately hide the overlay but i right now i need something to close the app
-        self.ui.exit_button.clicked.connect(QCoreApplication.quit)
-        self.ui.exit_button.clicked.connect(self.mod_manager.disable_all)
-        # Works but in a weird way
-        self.ui.exit_button.clicked.connect(self.hotkey_manager.stop)
         self.hotkey_manager.changed.connect(self._change_displayed_shortcut)
-
         self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
+        self.ui.exit_button.clicked.connect(self._toggle_window_visibility)
 
         ### Open mods
         self.ui.mod_list.clicked.connect(self._mod_clicked)

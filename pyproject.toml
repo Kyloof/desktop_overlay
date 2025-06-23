@@ -9,7 +9,7 @@ description = "Modular open-source overlay for your desktop"
 requires-python = ">=3.8"
 authors = [{ name = "Jan Kubów" }, { name = "Dawid Wyskwarski" }]
 
-dependencies = ["PySide6", "pynput"]
+dependencies = ["PySide6", "pynput", "pystray", "pillow"]
 
 [project.scripts]
 desktop-overlay = "desktop_overlay.main:main"

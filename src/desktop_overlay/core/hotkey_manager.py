@@ -27,8 +27,10 @@ class HotkeyListenerThread(QThread):
             self.listener.join()
 
     def _pressed(self, key):
-        ''' _pressed listens for two things:
-                - if current_sequence of keys is the activation sequence it sends a signal to '''
+        ''' _pressed listens for:
+                - If the activation sequence is clicked it signals activate.
+                - Saves max_sequence which is used for changing shortcut.
+        '''
         self._current_sequence.add(key)
         if self._change_sequence and len(self._current_sequence) > len(self._max_sequence):
             self._max_sequence = self._current_sequence.copy()
@@ -36,17 +38,20 @@ class HotkeyListenerThread(QThread):
             self.activated.emit()
 
     def _released(self, key):
+        ''' _released checks if max_sequence typing is finished, then signals changed. '''
         self._current_sequence.discard(key)
         if self._change_sequence and len(self._current_sequence) == 0 and len(self._max_sequence) > 0:
             self.changed.emit(self._max_sequence.copy())
             self._max_sequence.clear()
 
     def stop(self):
+        ''' Stop the thread. '''
         self.terminate()
         if self.listener:
             self.listener.stop()
 
     def change_sequence(self):
+        ''' Send a signal to the function that the sequence will be changed '''
         self._change_sequence = not self._change_sequence
         if self._change_sequence:
             self._max_sequence.clear()
@@ -54,10 +59,8 @@ class HotkeyListenerThread(QThread):
 
 class HotkeyManager(QObject):
     changed = Signal(str)
-    capture_started = Signal()
-    capture_finished = Signal()
 
-    def __init__(self, activation_function, sequence: set = {keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}, parent=None):
+    def __init__(self, activation_function, sequence={keyboard.Key.ctrl_l, keyboard.KeyCode.from_char("0")}, parent=None):
         super().__init__(parent)
         self.activation_sequence = sequence
         self.activation_function = activation_function
@@ -74,7 +77,8 @@ class HotkeyManager(QObject):
         self.listener_thread.changed.connect(self._save_new_sequence)
         self.listener_thread.start()
 
-    def _save_new_sequence(self, new_sequence: set):
+    def _save_new_sequence(self, new_sequence):
+        '''Save new activation sequence.'''
         if len(new_sequence) > 0:
             self.activation_sequence = new_sequence
             self.listener_thread.activation_sequence = new_sequence
@@ -83,16 +87,15 @@ class HotkeyManager(QObject):
             self.changed.emit("+".join(str(s) for s in new_sequence))
 
     def change_activation_sequence(self):
-        '''Start the hotkey capture process'''
+        '''Start the hotkey capture process.'''
         if self.is_capturing:
+            # If is already capturing
             return self.activation_sequence
 
         self.is_capturing = True
         self.listener_thread.change_sequence()
         self.capture_timer.start(3000)
 
-        self.capture_started.emit()
-        
         return self.activation_sequence
 
     def _stop_hotkey_capture(self):
@@ -104,7 +107,6 @@ class HotkeyManager(QObject):
             self.capture_timer.stop()
 
         self.listener_thread.change_sequence()
-        self.capture_finished.emit()
 
     def stop(self):
         '''Stop the hotkey manager completely'''

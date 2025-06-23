@@ -5,7 +5,6 @@ OverlayManager - class that adds functionality to the GUI
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtCore import QCoreApplication, Qt
 
-from desktop_overlay.core import mod_manager
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
 from desktop_overlay.core.hotkey_manager import HotkeyManager
 from desktop_overlay.core.mod_manager import ModManager
@@ -23,10 +22,13 @@ class OverlayManager(QMainWindow):
         ### it fucks everything up but for the love of god it needs to stay
         ### oterwise everything will be even more fucked
         self.setWindowFlags(
-            Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.X11BypassWindowManagerHint
+            Qt.WindowType.Window | 
+            Qt.WindowType.FramelessWindowHint | 
+            Qt.WindowType.WindowStaysOnTopHint | 
+            Qt.WindowType.X11BypassWindowManagerHint
         )
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
         ### Managers
         self.mod_manager = ModManager()
@@ -44,17 +46,20 @@ class OverlayManager(QMainWindow):
         self.ui.set_up_ui(self)
         self.ui.mod_list.setModel(self.model)
         self.ui.saved_shortcut.setText("+".join(str(s) for s in self.hotkey_manager.activation_sequence))
+
+        ### Tray
         self.overlay_tray = OverlayTray()
         self.overlay_tray.open_action.triggered.connect(self._toggle_window_visibility)
         self.overlay_tray.quit_action.triggered.connect(QCoreApplication.quit)
         self.overlay_tray.quit_action.triggered.connect(self.hotkey_manager.stop)
         self.overlay_tray.quit_action.triggered.connect(self.mod_manager.disable_all)
 
-        ### Making it fullscreen
+        ### Setup screen 
         self.screens = QApplication.screens()
         self.settings_manager.setup_screens(self.screens, screen_number)
-        self._set_screen(0) #should be saved value
-        
+        self._set_screen(0) # should be saved value
+
+        ### Connecting 
         self.hotkey_manager.changed.connect(self._change_displayed_shortcut)
         self.ui.settings_button.clicked.connect(self._toggle_settings_visibility)
         self.ui.exit_button.clicked.connect(self._toggle_window_visibility)
@@ -63,7 +68,6 @@ class OverlayManager(QMainWindow):
         self.ui.mod_list.clicked.connect(self._mod_clicked)
         
         ### Connecting settings
-        ### changing the shortcut is not working yet
         self.ui.edit_shortcut.clicked.connect(self.settings_manager.change_overlay_shortcut)
         self.ui.display_selector.addItems(self.settings_manager.get_screens_strings())
         self.ui.display_selector.currentIndexChanged.connect(self._set_screen)
@@ -72,11 +76,13 @@ class OverlayManager(QMainWindow):
         self._toggle_window_visibility()
 
     def _set_screen(self, index):
+        '''Function that sets a screen given the index'''
         geometry, center_x, center_y = self.settings_manager.select_screen(index)
         self.setGeometry(geometry)
         self.move(center_x, center_y)
 
     def _mod_clicked(self, index):
+        '''Open the mod, once it's icon is clicked'''
         mod = self.enabled_mods[index.row()]
 
         if not mod.is_open:
@@ -109,6 +115,7 @@ class OverlayManager(QMainWindow):
         settings = self.ui.settings_menu
         settings.setVisible(not settings.isVisible())
 
-    def _change_displayed_shortcut(self, new_shortuct: str) -> None:
+    def _change_displayed_shortcut(self, new_shortuct):
+        '''Changes displayed shortcut for activation sequence'''
         self.ui.saved_shortcut.setText(new_shortuct)
 

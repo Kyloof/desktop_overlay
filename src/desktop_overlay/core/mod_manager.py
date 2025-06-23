@@ -1,9 +1,9 @@
 from typing import Type
-from .base_mod import BaseMod
+import inspect
+from desktop_overlay.core.base_mod import BaseMod
 import os
-import types
 import importlib
-from ..definitions import ROOT_DIR
+from desktop_overlay.definitions import ROOT_DIR
 
 class ModManager:
     '''
@@ -31,39 +31,40 @@ class ModManager:
                         try:
                             module_file = f"desktop_overlay.mods.{file[:-3]}.{file[:-3]}"
                             module = importlib.import_module(module_file)
-
-                            class_name = ("".join(list(map(lambda x: x.capitalize(), file[:-3].split("_")))))
-                            module_class = getattr(module, class_name)
-                            module_class.id = mod_id
-                            mod_id += 1
-
-                            self.mods[mod_id] = module_class 
-
+                            for name, obj in inspect.getmembers(module):
+                                if inspect.isclass(obj) and "Mod" in name:
+                                    module_class = getattr(module, name)
+                                    module_class.id = mod_id
+                                    mod_id += 1
+                                    self.mods[mod_id] = module_class 
                         except ModuleNotFoundError as e:
                             print(f"Failed to import module {file} from path: {e}")
         importlib.invalidate_caches()
 
-    def enable_mod(self, mod_id: int):
+    def enable_mod(self, mod_id: int) -> None:
         '''Enable the mod'''
         if mod_id in self.mods:
             mod = self.mods[mod_id]
             self.enabled_mods[mod_id] = mod()
 
-    def enable_all(self):
+    def enable_all(self) -> None:
+        '''Enable all the mods'''
         for id in self.mods.keys():
             self.enable_mod(id)
 
-    def disable_all(self):
-        for id in self.mods.keys():
-            self.disable_mod(id)
-
-    def disable_mod(self, mod_id: int):
+    def disable_mod(self, mod_id: int) -> None:
         '''Disable the mod'''
         if mod_id in self.enabled_mods:
             mod = self.enabled_mods.pop(mod_id)
             mod.remove_state()
 
-    def get_mods_info(self):
+    def disable_all(self) -> None:
+        '''Disable all the mods'''
+        for id in self.mods.keys():
+            self.disable_mod(id)
+
+    def get_mods_info(self) -> list[tuple[str,str,str]]:
+        '''Get info about mods'''
         info = []
         for mod in self.mods.values():
             info.append((mod.id, mod.name, mod.description))

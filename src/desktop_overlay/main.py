@@ -17,7 +17,6 @@ def main():
         }    
     """)
 
-
     window = OverlayManager()
     window.show()
 

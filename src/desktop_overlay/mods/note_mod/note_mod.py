@@ -18,6 +18,19 @@ class NoteMod(BaseMod):
 
     def load_state(self) -> None:
         self.text_edit = QTextEdit()
+        self.text_edit.setStyleSheet("""
+            background-color: rgba(255,255,90,120);
+            padding: 20px;
+            font-size: 18px;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-weight: 500;
+            color: #141414;
+            border-radius: 7px;
+            selection-background-color: #fff59d;
+            selection-color: #000;
+        """)
+        self.text_edit.setPlaceholderText("Type your notes here...")
+        self.text_edit.setAlignment(Qt.AlignTop)
         self.main_layout.addWidget(self.text_edit)
 
     def remove_state(self) -> None:

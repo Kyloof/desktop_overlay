@@ -8,6 +8,7 @@ from PySide6.QtGui import QKeySequence, QAction, QShortcut
 
 from desktop_overlay.core import hotkey_manager
 from desktop_overlay.core import settings_manager
+from desktop_overlay.core import mod_manager
 from desktop_overlay.ui.core_overlay_ui import UiOverlay
 from desktop_overlay.core.hotkey_manager import HotkeyManager
 from desktop_overlay.core.mod_manager import ModManager
@@ -54,6 +55,7 @@ class OverlayManager(QMainWindow):
         
         ### This button will ultimately hide the overlay but i right now i need something to close the app
         self.ui.exit_button.clicked.connect(QCoreApplication.quit)
+        self.ui.exit_button.clicked.connect(self.mod_manager.disable_all)
         # Works but in a weird way
         self.ui.exit_button.clicked.connect(self.hotkey_manager.stop)
         self.hotkey_manager.changed.connect(self._change_displayed_shortcut)
@@ -79,7 +81,6 @@ class OverlayManager(QMainWindow):
 
         if not mod.is_open:
             sub = CustomMDIWindow(mod_name=mod.name, mod_icon=mod.icon_path)
-            mod.load_state()
             sub.setWidget(mod)
         
             self.ui.mod_windows_area.addSubWindow(sub)

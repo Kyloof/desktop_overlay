@@ -29,6 +29,6 @@ class CustomMDIWindow(QMdiSubWindow):
         if self.widget():
             self.widget().is_open = False
             self.widget().setParent(None)
-            self.widget().remove_state()
+            self.widget().reset_state()
         self.setWidget(None)
         return super().closeEvent(closeEvent)

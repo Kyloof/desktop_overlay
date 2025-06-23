@@ -53,10 +53,11 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
         pass
 
     @abstractmethod
-    def remove_state(self) -> None:
-        '''Remove the state of the widget'''
+    def reset_state(self) -> None:
+        '''Reset the state of the widget'''
         pass
     
     @abstractmethod
-    def load_state(self) -> None:
-        '''Load the state of the widget'''
+    def remove_state(self) -> None:
+        '''Remove the state of the widget'''
+        pass

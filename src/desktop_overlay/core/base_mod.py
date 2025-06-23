@@ -5,21 +5,21 @@ QWidgetMeta = type(QWidget)
 
 
 class _BaseModMeta(ABCMeta, QWidgetMeta):
-    '''
-    Create meta that connects ABCMeta and QWidgetMeta here cuz python
-    '''
+    '''Create meta that connects ABCMeta and QWidgetMeta here, to merge them into one Metaclass'''
     pass
 
-
 class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
-    '''
-    Abstract class for all mods that are yet to come
-    '''
+    '''Abstract class for all mods that are yet to come'''
 
     @property
     @abstractmethod
     def id(self) -> int:
-        '''Mod id - assigned automatically, don't worry about it'''
+        '''Mod id'''
+        pass
+
+    @id.setter
+    @abstractmethod
+    def id(self, value: int) -> None:
         pass
 
     @property
@@ -28,22 +28,42 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
         '''Mod name.'''
         pass
 
+    @name.setter
+    @abstractmethod
+    def name(self, value: str) -> None:
+        pass
+
     @property
     @abstractmethod
     def description(self) -> str:
         '''Mod description.'''
         pass
 
+    @description.setter
+    @abstractmethod
+    def description(self, value: str) -> None:
+        pass
+
     @property
     @abstractmethod
     def icon_path(self) -> str:
-        '''path to the mod icon'''
+        '''Path to the mod icon'''
+        pass
+
+    @icon_path.setter
+    @abstractmethod
+    def icon_path(self, value: str) -> None:
         pass
 
     @property
     @abstractmethod
     def is_open(self) -> bool:
-        '''flag if the mod i currently open'''
+        '''Flag if the mod is currently open'''
+        pass
+
+    @is_open.setter
+    @abstractmethod
+    def is_open(self, value: bool) -> None:
         pass
 
     @property
@@ -52,12 +72,17 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
         '''A tuple that takes default (width, height) for a mod window'''
         pass
 
+    @default_size.setter
+    @abstractmethod
+    def default_size(self, value: tuple[int, int]) -> None:
+        pass
+
     @abstractmethod
     def reset_state(self) -> None:
         '''Reset the state of the widget'''
         pass
-    
+
     @abstractmethod
     def remove_state(self) -> None:
-        '''Remove the state of the widget'''
+        '''Remove the state of the widget (It's use case is on the app exit)'''
         pass

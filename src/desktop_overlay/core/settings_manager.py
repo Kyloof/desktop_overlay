@@ -12,7 +12,7 @@ class SettingsManager():
         self.active_screen: QScreen | None = None
 
     def change_overlay_shortcut(self) -> None:
-        '''Change overlay shorcut and return the new shortcut as a string'''
+        '''Change overlay shorcut'''
         self.hotkey_manager.change_activation_sequence()
 
     def select_screen(self, selected_screen_nr):

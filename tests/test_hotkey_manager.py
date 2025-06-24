@@ -8,7 +8,7 @@ def hotkey_manager():
 
 def test_save_new_sequence(hotkey_manager):
     new_seq = {Mock(), Mock()}
-    hotkey_manager._save_new_sequence(new_seq)
+    hotkey_manager.save_new_sequence(new_seq)
     assert hotkey_manager.activation_sequence == new_seq
 
 def test_change_activation_sequence(hotkey_manager):

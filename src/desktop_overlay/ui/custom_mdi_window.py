@@ -1,3 +1,7 @@
+'''
+CustomMDIWindow - we had to override the MDIsubwindow closing logic (also gave it a bit of styling) 
+'''
+
 from PySide6.QtWidgets import QMdiSubWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QToolButton, QStyle, QProxyStyle
 from PySide6.QtCore import Qt, QSize, QEvent
 from PySide6.QtGui import QIcon, QPalette, QColor, QPixmap
@@ -5,9 +9,10 @@ from PySide6.QtGui import QIcon, QPalette, QColor, QPixmap
 from desktop_overlay.core.base_mod import BaseMod
 
 class CustomMDIWindow(QMdiSubWindow):
+    
     def __init__(self, mod_name: str, mod_icon:str, parent=None):
         super().__init__(parent)
-        ### I tried
+        ### I tried (i really did)
         self.setWindowTitle(mod_name)
         self.setWindowIcon(QIcon(mod_icon))
         self.setStyleSheet("""
@@ -26,6 +31,7 @@ class CustomMDIWindow(QMdiSubWindow):
                 self.resize(w, h)
 
     def closeEvent(self, closeEvent):
+        '''Overrides the logic (sets the is_open to False and other things)'''
         if self.widget():
             self.widget().is_open = False
             self.widget().setParent(None)

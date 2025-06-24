@@ -1,3 +1,7 @@
+'''
+NoteMod - Simple mod for making quick notes
+'''
+
 from desktop_overlay.core.base_mod import BaseMod
 from desktop_overlay.definitions import ROOT_DIR
 from PySide6.QtWidgets import QVBoxLayout, QTextEdit
@@ -18,6 +22,7 @@ class NoteMod(BaseMod):
         self.load_state()
 
     def load_state(self) -> None:
+        '''It is just stylized QTextEdit'''
         self.text_edit = QTextEdit()
         self.text_edit.setStyleSheet("""
             background-color: rgba(255,255,90,120);
@@ -35,6 +40,7 @@ class NoteMod(BaseMod):
         self.main_layout.addWidget(self.text_edit)
 
     def remove_state(self) -> None:
+        '''For more info check BaseMod class'''
         if self.text_edit != None:
             self.main_layout.removeWidget(self.text_edit)
             self.text_edit.deleteLater()

@@ -1,22 +1,25 @@
-[build-system]
-requires = ["setuptools >= 77.0.3"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "desktop_overlay"
-version = "0.1"
+version = "0.1.0"
 description = "Modular open-source overlay for your desktop"
-requires-python = ">=3.8"
-authors = [{ name = "Jan Kubów" }, { name = "Dawid Wyskwarski" }]
+authors = ["Jan Kubów", "Dawid Wyskwarski"]
+license = "MIT"
+readme = "README.md"
 
-dependencies = ["PySide6", "pynput", "pystray", "pillow", "pytest", "spotipy"]
+[tool.poetry.dependencies]
+python = ">=3.9,<3.14"
+PySide6 = "*"
+pynput = "*"
+pystray = "*"
+pillow = "*"
+pytest = "*"
+spotipy = "*"
+pyinstaller = "*"
+dotenv = "*"
 
-[project.scripts]
+[tool.poetry.scripts]
 desktop-overlay = "desktop_overlay.main:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

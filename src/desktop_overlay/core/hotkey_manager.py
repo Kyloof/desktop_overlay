@@ -74,10 +74,10 @@ class HotkeyManager(QObject):
 
         self.listener_thread = HotkeyListenerThread(self.activation_sequence)
         self.listener_thread.activated.connect(self.activation_function)
-        self.listener_thread.changed.connect(self._save_new_sequence)
+        self.listener_thread.changed.connect(self.save_new_sequence)
         self.listener_thread.start()
 
-    def _save_new_sequence(self, new_sequence):
+    def save_new_sequence(self, new_sequence):
         '''Save new activation sequence.'''
         if len(new_sequence) > 0:
             self.activation_sequence = new_sequence
@@ -107,6 +107,9 @@ class HotkeyManager(QObject):
             self.capture_timer.stop()
 
         self.listener_thread.change_sequence()
+
+    def activation_sequence_to_string(self):
+        return ("+".join(str(s) for s in self.activation_sequence))
 
     def stop(self):
         '''Stop the hotkey manager completely'''

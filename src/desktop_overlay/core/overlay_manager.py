@@ -2,6 +2,8 @@
 OverlayManager - class that adds functionality to the GUI
 """
 
+from pynput.keyboard import Key, KeyCode
+from pynput.keyboard import Key
 from PySide6.QtWidgets import QMainWindow, QApplication
 from PySide6.QtCore import QCoreApplication, Qt
 
@@ -53,11 +55,13 @@ class OverlayManager(QMainWindow):
         self.overlay_tray.quit_action.triggered.connect(QCoreApplication.quit)
         self.overlay_tray.quit_action.triggered.connect(self.hotkey_manager.stop)
         self.overlay_tray.quit_action.triggered.connect(self.mod_manager.disable_all)
+        self.overlay_tray.quit_action.triggered.connect(self._save_settings)
 
         ### Setup screen 
         self.screens = QApplication.screens()
         self.settings_manager.setup_screens(self.screens, screen_number)
-        self._set_screen(0) # should be saved value
+
+        ### Load previous settings
 
         ### Connecting 
         self.hotkey_manager.changed.connect(self._change_displayed_shortcut)
@@ -72,7 +76,8 @@ class OverlayManager(QMainWindow):
         self.ui.display_selector.addItems(self.settings_manager.get_screens_strings())
         self.ui.display_selector.currentIndexChanged.connect(self._set_screen)
 
-
+        
+        self._load_settings()
         self._toggle_window_visibility()
 
     def _set_screen(self, index):
@@ -118,4 +123,48 @@ class OverlayManager(QMainWindow):
     def _change_displayed_shortcut(self, new_shortuct):
         '''Changes displayed shortcut for activation sequence'''
         self.ui.saved_shortcut.setText(new_shortuct)
+
+    def _save_settings(self):
+        def serialize_key(key):
+            if isinstance(key, Key):
+                return f"Key:{key.name}"
+            elif isinstance(key, KeyCode):
+                return f"KeyCode:{key.char}"
+            else:
+                raise ValueError(f"Unknown key type: {key}")
+        with open("config.txt", "w+") as file:
+            seq_str = "+".join(serialize_key(s) for s in self.hotkey_manager.activation_sequence)
+            file.write(seq_str + '\n')
+            file.write(str(self.settings_manager.selected_screen_nr) + '\n')
+
+    def _load_settings(self):
+        def deserialize_key(key_str):
+            if key_str.startswith("Key:"):
+                key_name = key_str[4:]
+                return getattr(Key, key_name)
+            elif key_str.startswith("KeyCode:"):
+                char = key_str[8:]
+                return KeyCode.from_char(char)
+            else:
+                raise ValueError(f"Unknown key string format: {key_str}")
+        try:
+            with open("config.txt", "r") as file:
+                lines = file.readlines()
+                if len(lines) >= 2:
+                    activation_sequence_str = lines[0].strip()
+                    screen_nr_str = lines[1].strip()
+
+                    keys = activation_sequence_str.split("+")
+                    activation_sequence = set(deserialize_key(k) for k in keys)
+
+                    for el in activation_sequence:
+                        print (type(el), el)
+                    self.hotkey_manager.save_new_sequence(activation_sequence)
+                    self._set_screen(int(screen_nr_str))
+                else:
+                    self._set_screen(0)
+        except Exception as e:
+            print("Error loading settings:", e)
+            self._set_screen(0)
+
 

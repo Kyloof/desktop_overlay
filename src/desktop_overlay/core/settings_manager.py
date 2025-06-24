@@ -11,6 +11,7 @@ class SettingsManager():
         self.hotkey_manager = hotkey_manager
         self.screens: list[QScreen] = []
         self.active_screen: QScreen | None = None
+        self.active_screen_number = None
 
     def change_overlay_shortcut(self) -> None:
         '''Change overlay shorcut'''
@@ -18,8 +19,8 @@ class SettingsManager():
 
     def select_screen(self, selected_screen_nr: int) -> tuple[QRect, int, int]:
         '''Select on which screen to run the overlay'''
-        print(selected_screen_nr)
         self.active_screen = self.screens[selected_screen_nr]
+        self.selected_screen_nr = selected_screen_nr
         if len(self.screens) > selected_screen_nr:
             self.active_screen = self.screens[selected_screen_nr]
         return self._get_screen_geometry()

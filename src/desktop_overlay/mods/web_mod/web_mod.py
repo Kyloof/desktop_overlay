@@ -15,9 +15,9 @@ class WebMod(BaseMod):
     icon_path = f"{ROOT_DIR}/mods/web_mod/assets/web_icon.png"
     default_size = (1000,600)
 
-    def __init__(self, url=QUrl("https://www.google.com/")):
+    def __init__(self, home_url=QUrl("https://www.google.com/")):
         super().__init__()
-        self.url = url
+        self.home_url = home_url
         self.web_view = None
         self.main_layout = QVBoxLayout(self)
         self.load_state()
@@ -25,7 +25,7 @@ class WebMod(BaseMod):
     def load_state(self):
         ### Web engine
         self.web_view = QWebEngineView(self)
-        self.web_view.setUrl(self.url)
+        self.web_view.setUrl(self.home_url)
 
         self.navigation_frame = QFrame(self)
         self.navigation_frame.setContentsMargins(-7,-7,-7,-7)
@@ -106,4 +106,7 @@ class WebMod(BaseMod):
             
             self.navigation_frame = None
             self.web_view = None
+
+    def reset_state(self):
+        self.web_view.setUrl(self.home_url)
 

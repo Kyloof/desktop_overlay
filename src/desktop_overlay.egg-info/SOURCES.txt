@@ -19,6 +19,7 @@ src/desktop_overlay/core/settings_manager.py
 src/desktop_overlay/mods/__init__.py
 src/desktop_overlay/mods/note_mod/note_mod.py
 src/desktop_overlay/mods/spotify_mod/__init__.py
+src/desktop_overlay/mods/spotify_mod/spotify_mod.py
 src/desktop_overlay/mods/web_mod/__init__.py
 src/desktop_overlay/mods/web_mod/web_mod.py
 src/desktop_overlay/ui/__init__.py
@@ -26,5 +27,9 @@ src/desktop_overlay/ui/core_overlay_ui.py
 src/desktop_overlay/ui/custom_mdi_window.py
 src/desktop_overlay/ui/layouts.py
 src/desktop_overlay/ui/mod_list_model.py
+src/desktop_overlay/ui/system_tray.py
 src/desktop_overlay/ui/themes.py
 src/desktop_overlay/ui/widgets.py
+tests/test_hotkey_manager.py
+tests/test_mod_manager.py
+tests/test_settings_manager.py

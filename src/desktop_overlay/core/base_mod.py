@@ -5,7 +5,7 @@ QWidgetMeta = type(QWidget)
 
 
 class _BaseModMeta(ABCMeta, QWidgetMeta):
-    '''Create meta that connects ABCMeta and QWidgetMeta here, to merge them into one Metaclass'''
+    '''Create BaseModMeta that connects ABCMeta and QWidgetMeta here, to merge them into one Metaclass'''
     pass
 
 class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
@@ -14,7 +14,6 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def id(self) -> int:
-        '''Mod id'''
         pass
 
     @id.setter
@@ -25,7 +24,6 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def name(self) -> str:
-        '''Mod name.'''
         pass
 
     @name.setter
@@ -36,7 +34,6 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def description(self) -> str:
-        '''Mod description.'''
         pass
 
     @description.setter
@@ -47,7 +44,7 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def icon_path(self) -> str:
-        '''Path to the mod icon'''
+        '''Path to the mod icon from the root path, e.g src/desktop_overlay/mods/example/.../example.jpg'''
         pass
 
     @icon_path.setter
@@ -58,7 +55,8 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def is_open(self) -> bool:
-        '''Flag if the mod is currently open'''
+        '''bool that shows if the mod is currently open '''
+        #TODO: Check if the mod is open without storing the bool
         pass
 
     @is_open.setter
@@ -69,7 +67,8 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
     @property
     @abstractmethod
     def default_size(self) -> tuple[int, int]:
-        '''A tuple that takes default (width, height) for a mod window'''
+        '''Default size (width, height) for a mod window, once it's opened'''
+        #TODO: Make it scale with the size of the screen
         pass
 
     @default_size.setter
@@ -79,10 +78,8 @@ class BaseMod(ABC, QWidget, metaclass=_BaseModMeta):
 
     @abstractmethod
     def reset_state(self) -> None:
-        '''Reset the state of the widget'''
         pass
 
     @abstractmethod
     def remove_state(self) -> None:
-        '''Remove the state of the widget (It's use case is on the app exit)'''
         pass

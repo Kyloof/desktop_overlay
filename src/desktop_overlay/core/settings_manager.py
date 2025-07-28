@@ -2,6 +2,9 @@ from desktop_overlay.core.hotkey_manager import HotkeyManager
 from PySide6.QtGui import QScreen
 from PySide6.QtCore import QRect
 
+
+#TODO: this class is pretty solid, could think on how to insert more settings here
+#TODO: Also go more functional paradigm, class is not necessary here
 class SettingsManager():
     '''
     Settings Manager is responsible for all functionality settings-wise in OverlayManager,

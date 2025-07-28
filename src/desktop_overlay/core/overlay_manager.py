@@ -15,6 +15,8 @@ from desktop_overlay.ui.mod_list_model import ModListModel
 from desktop_overlay.ui.custom_mdi_window import CustomMDIWindow
 from desktop_overlay.ui.system_tray import OverlayTray
 
+
+#TODO: I feel like this class does unnecesarilly to much. Split it up a bit
 class OverlayManager(QMainWindow):
     
     def __init__(self, screen_number: int = 0):

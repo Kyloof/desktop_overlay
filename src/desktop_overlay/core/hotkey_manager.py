@@ -6,6 +6,9 @@ It listens for key presses and checks if the current sequence matches the activa
 from PySide6.QtCore import QObject, QThread, Signal, QTimer
 from pynput import keyboard
 
+
+#TODO: This whole class is to be rewritten it's shit right now and probably causes the crash of the app
+
 class HotkeyListenerThread(QThread):
     activated = Signal()
     changed = Signal(set)

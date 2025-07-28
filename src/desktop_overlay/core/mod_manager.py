@@ -5,6 +5,8 @@ import os
 import importlib
 from desktop_overlay.definitions import ROOT_DIR
 
+#TODO: typing, think about mod_id. is this the best way to do it?
+#TODO: Also, it could be a great idea to get rid of the class and go more functional paradigm
 class ModManager:
     '''
     ModManager - middleman between the user and the mods
@@ -20,6 +22,7 @@ class ModManager:
 
         self.MODS_PATH = os.path.join(ROOT_DIR, "mods")
 
+    #TODO: I feel like this could've been nicer
     def detect_mods(self) -> None:
         '''Detect installed mod packages from the mod folder.'''
         mod_id = 0
@@ -42,29 +45,24 @@ class ModManager:
         importlib.invalidate_caches()
 
     def enable_mod(self, mod_id: int) -> None:
-        '''Enable the mod'''
         if mod_id in self.mods:
             mod = self.mods[mod_id]
             self.enabled_mods[mod_id] = mod()
 
     def enable_all(self) -> None:
-        '''Enable all the mods'''
         for id in self.mods.keys():
             self.enable_mod(id)
 
     def disable_mod(self, mod_id: int) -> None:
-        '''Disable the mod'''
         if mod_id in self.enabled_mods:
             mod = self.enabled_mods.pop(mod_id)
             mod.remove_state()
 
     def disable_all(self) -> None:
-        '''Disable all the mods'''
         for id in self.mods.keys():
             self.disable_mod(id)
 
     def get_mods_info(self) -> list[tuple[str,str,str]]:
-        '''Get info about mods'''
         info = []
         for mod in self.mods.values():
             info.append((mod.id, mod.name, mod.description))
